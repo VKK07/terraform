@@ -16,7 +16,7 @@ resource "aws_vpc" "main" {
 resource "aws_subnet" "main" {
   vpc_id            = aws_vpc.main.id
   cidr_block        = var.subnet_cidr
-  availability_zone = "ap-southeast-2a"
+  availability_zone = "us-east-1"
   tags = {
     Name = "subnet"
   }
@@ -44,7 +44,7 @@ resource "aws_route_table_association" "subnet_assoc" {
   route_table_id = aws_route_table.main.id
 }
 # Creating Security Group
-resource "aws_security_group" "wordpress_sg" {
+resource "aws_security_group" "fish_sg" {
   vpc_id = aws_vpc.main.id
   # Inbound Rules
   # HTTP access from anywhere
@@ -55,8 +55,8 @@ resource "aws_security_group" "wordpress_sg" {
     cidr_blocks = ["0.0.0.0/0"]
   }
   ingress {
-    from_port   = 8080
-    to_port     = 8080
+    from_port   = 8000
+    to_port     = 8000
     protocol    = "tcp"
     cidr_blocks = ["0.0.0.0/0"]
   }
@@ -74,20 +74,6 @@ resource "aws_security_group" "wordpress_sg" {
     protocol    = "tcp"
     cidr_blocks = ["0.0.0.0/0"]
   }
-  # MYSQL access from anywhere
- ingress {
-   from_port   = 3306
-   to_port     = 3306
-   protocol    = "tcp"
-   cidr_blocks = ["0.0.0.0/0"]
- }
- # MYSQL access from anywhere
- ingress {
-   from_port   = 33060
-   to_port     = 33060
-   protocol    = "tcp"
-   cidr_blocks = ["0.0.0.0/0"]
- }
   # Outbound Rules
   # Internet access to anywhere
   egress {
@@ -112,17 +98,17 @@ variable "subnet_cidr" {
 }
 
 # Creating EC2 instance
-resource "aws_instance" "wordpress_instance" {
-  ami                         = "ami-0a4f913c1801e18a2"
-  instance_type               = "t2.micro"
+resource "aws_instance" "fish_instance" {
+  ami                         = "ami-0d94353f7bad10668"
+  instance_type               = "t2.medium"
   count                       = 1
   key_name                    = "kiran-key"
-  vpc_security_group_ids      = ["${aws_security_group.wordpress_sg.id}"]
+  vpc_security_group_ids      = ["${aws_security_group.fish_sg.id}"]
   subnet_id                   = aws_subnet.main.id
   associate_public_ip_address = true
   user_data                   = file("userdata.sh")
   tags = {
-    Name = "Wordpress_Instance"
+    Name = "fish_Instance"
   }
 }
 
@@ -133,5 +119,5 @@ resource "aws_key_pair" "kiran" {
 
 
 output "public_ip" {
-  value = aws_instance.wordpress_instance[*].public_ip
+  value = aws_instance.fish_instance[*].public_ip
 }
