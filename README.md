@@ -1,1 +1,1 @@
-# terraform pollscm and wordpress
+# hosting wordpress using terraform pollscm.
