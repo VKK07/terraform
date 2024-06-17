@@ -44,7 +44,7 @@ resource "aws_route_table_association" "subnet_assoc" {
   route_table_id = aws_route_table.main.id
 }
 # Creating Security Group
-resource "aws_security_group" "fish_sg" {
+resource "aws_security_group" "tf_sg" {
   vpc_id = aws_vpc.main.id
   # Inbound Rules
   # HTTP access from anywhere
@@ -98,12 +98,12 @@ variable "subnet_cidr" {
 }
 
 # Creating EC2 instance
-resource "aws_instance" "fish_instance" {
+resource "aws_instance" "tf_instance" {
   ami                         = "ami-0eaf7c3456e7b5b68"
   instance_type               = "t2.micro"
   count                       = 1
   key_name                    = "sai"
-  vpc_security_group_ids      = ["${aws_security_group.fish_sg.id}"]
+  vpc_security_group_ids      = ["${aws_security_group.tf_sg.id}"]
   subnet_id                   = aws_subnet.main.id
   associate_public_ip_address = true
   user_data                   = file("userdata.sh")
