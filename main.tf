@@ -1,6 +1,6 @@
 #provider.tf
 provider "aws" {
-  region     = "ap-southeast-2"
+  region     = "us-east-1"
  }
 
 #vpc.tf
@@ -99,26 +99,22 @@ variable "subnet_cidr" {
 
 # Creating EC2 instance
 resource "aws_instance" "fish_instance" {
-  ami                         = "ami-0d94353f7bad10668"
-  instance_type               = "t2.medium"
+  ami                         = "ami-0eaf7c3456e7b5b68"
+  instance_type               = "t2.micro"
   count                       = 1
-  key_name                    = "ki-key"
+  key_name                    = "sai"
   vpc_security_group_ids      = ["${aws_security_group.fish_sg.id}"]
   subnet_id                   = aws_subnet.main.id
   associate_public_ip_address = true
   user_data                   = file("userdata.sh")
   tags = {
-    Name = "fish_Instance"
+    Name = "tf_instance"
   }
 }
 
-resource "aws_key_pair" "kiran" {
-  key_name   = "ki-key"
-  public_key = "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQD3F6tyPEFEzV0LX3X8BsXdMsQz1x2cEikKDEY0aIj41qgxMCP/iteneqXSIFZBp5vizPvaoIR3Um9xK7PGoW8giupGn+EPuxIA4cDM4vzOqOkiMPhz5XK0whEjkVzTo4+S0puvDZuwIsdiW9mxhJc7tgBNL0cYlWSYVkz4G/fslNfRPW5mYAM49f4fhtxPb5ok4Q2Lg9dPKVHO/Bgeu5woMc7RY0p1ej6D4CKFE6lymSDJpW0YHX/wqE9+cfEauh7xZcG0q9t2ta6F6fmX0agvpFyZo8aFbXeUBr7osSCJNgvavWbM/06niWrOvYX2xwWdhXmXSrbX8ZbabVohBK41 email@example.com"
-}
 
 
 output "public_ip" {
-  value = aws_instance.fish_instance[*].public_ip
+  value = aws_instance.tf_instance[*].public_ip
 }
 
