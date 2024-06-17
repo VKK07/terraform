@@ -1,1 +1,1 @@
-# terraform pollscm jenkins and wordpress
+# terraform pollscm and wordpress
