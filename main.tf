@@ -108,7 +108,7 @@ resource "aws_instance" "tf_instance" {
   associate_public_ip_address = true
   user_data                   = file("userdata.sh")
   tags = {
-    Name = "tf_instance"
+    Name = "terraform_instance"
   }
 }
 
