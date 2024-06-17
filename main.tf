@@ -98,7 +98,7 @@ variable "subnet_cidr" {
 }
 
 # Creating EC2 instance
-resource "aws_instance" "tf_instance" {
+resource "aws_instance" "terraform_instance" {
   ami                         = "ami-0eaf7c3456e7b5b68"
   instance_type               = "t2.micro"
   count                       = 1
@@ -115,6 +115,6 @@ resource "aws_instance" "tf_instance" {
 
 
 output "public_ip" {
-  value = aws_instance.tf_instance[*].public_ip
+  value = aws_instance.terraform_instance[*].public_ip
 }
 
