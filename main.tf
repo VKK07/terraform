@@ -102,7 +102,7 @@ resource "aws_instance" "terraform_instance" {
   ami                         = "ami-0edf386e462400a51"
   instance_type               = "t2.micro"
   count                       = 1
-  key_name                    = "sai"
+  key_name                    = "ohio"
   vpc_security_group_ids      = ["${aws_security_group.tf_sg.id}"]
   subnet_id                   = aws_subnet.main.id
   associate_public_ip_address = true
