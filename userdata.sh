@@ -1,6 +1,6 @@
 #!/bin/bash 
-sudo yum install -y git
-sudo yum install -y docker 
+sudo apt install -y git
+sudo apt install -y docker 
 sudo systemctl start docker
 sudo systemctl enable docker 
 sudo usermod -aG docker ec2-user 
