@@ -18,7 +18,7 @@ resource "aws_subnet" "main" {
   cidr_block        = var.subnet_cidr
   availability_zone = "us-east-1a"
   tags = {
-    Name = "subnet"
+    Name = "kiran_subnet"
   }
 }
 #creating internet gateway
